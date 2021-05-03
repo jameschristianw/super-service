@@ -19,13 +19,25 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/full_name_label"-->
+<!--        />-->
+<!--    <EditText-->
+<!--        android:id="@+id/edtRegisterFullName"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:inputType="text"-->
+<!--        />-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/full_name_label"
+        android:text="@string/username_label"
         />
     <EditText
-        android:id="@+id/edtRegisterFullName"
+        android:id="@+id/edtRegisterUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -49,7 +61,7 @@
         android:text="@string/password_label"
         />
     <EditText
-        android:id="@+id/edtPassword"
+        android:id="@+id/edtRegisterPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
@@ -61,7 +73,7 @@
         android:text="@string/confirm_password_label"
         />
     <EditText
-        android:id="@+id/edtConfirmPassword"
+        android:id="@+id/edtRegisterConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"

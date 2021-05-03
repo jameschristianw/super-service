@@ -4,27 +4,45 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.pottatodev.myapplication.R;
+import com.pottatodev.myapplication.helper.Config;
+import com.pottatodev.myapplication.helper.H;
+import com.pottatodev.myapplication.model.UserModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText edtLoginEmail, edtLoginPassword;
     Button btnLogin, btnLoginRegister;
 
+    H apiInterface;
+
+    UserModel currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        apiInterface = Config.getClient().create(H.class);
+
+        initializeViews();
+    }
+
+    void initializeViews(){
         ActionBar actionBar = this.getSupportActionBar();
 //        actionBar.hide();
 
@@ -38,42 +56,84 @@ public class LoginActivity extends AppCompatActivity {
             email = edtLoginEmail.getText().toString();
             password = edtLoginPassword.getText().toString();
 
-//            if(email.isEmpty() && password.isEmpty()){
-//                Log.d("LoginActivity", "Both email and password are empty");
-//                Toast.makeText(LoginActivity.this, "Email and password are invalid", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            if(email.isEmpty()){
+            if(email.isEmpty()){
+                edtLoginEmail.setError("Email cannot be empty");
 //                Log.d("LoginActivity", "Email is invalid");
 //                Toast.makeText(LoginActivity.this, "Email is invalid", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            if(password.isEmpty()){
+            }
+            if(password.isEmpty()){
+                edtLoginPassword.setError("Password cannot be empty");
 //                Log.d("LoginActivity", "Password is invalid");
 //                Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//
-//            if(isEmailValid(email)){
-//                Toast.makeText(LoginActivity.this, "Loggin In", Toast.LENGTH_LONG).show();
-//
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();
-//            } else{
-//                edtLoginEmail.setError("Please enter a correct email");
-//            }
+            }
+
+            if(isEmailValid(email)){
+                Toast.makeText(LoginActivity.this, "Logging In", Toast.LENGTH_LONG).show();
+                login(email, password);
+            } else{
+                edtLoginEmail.setError("Email is not valid");
+            }
 
             // Biar cepet
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
         });
 
         btnLoginRegister.setOnClickListener((v) -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+    }
+
+    void login(String email, String password){
+//        Call<UserModel> userResponse = apiInterface.loginUser(new UserModel(email, password));
+        Call<UserModel> userResponse = apiInterface.loginUser(email, password);
+        userResponse.enqueue(new Callback<UserModel>() {
+            @Override
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                Log.d("LoginActivity", String.valueOf(response.code()));
+                Log.d("LoginActivity", String.valueOf(response.message()));
+                Log.d("LoginActivity", String.valueOf(response.errorBody()));
+                Log.d("LoginActivity", String.valueOf(call.request().url()));
+                if (response.isSuccessful()){
+                    currentUser = response.body();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                    saveDataToSharedPreference();
+
+//                    intent.putExtra(UserModel.USER_DATA, currentUser);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    showToast("Something went wrong, please try again later");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserModel> call, Throwable t) {
+                t.printStackTrace();
+                t.getCause();
+                showToast("Please check your internet connection");
+            }
+        });
+    }
+
+    void saveDataToSharedPreference(){
+        SharedPreferences preferences;
+        String prefName = LoginActivity.this.getPackageName();
+        preferences = getSharedPreferences(prefName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString(UserModel.USER_EMAIL, currentUser.getEmail());
+        editor.putString(UserModel.USER_USERNAME, currentUser.getUsername());
+        editor.putString(UserModel.USER_ACCESS_TOKEN, currentUser.getTokens().getAccess());
+        editor.putString(UserModel.USER_REFRESH_TOKEN, currentUser.getTokens().getRefresh());
+        editor.apply();
+    }
+
+    void showToast(String message){
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
     public static boolean isEmailValid(String email) {
