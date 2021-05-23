@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
 
     void initializeViews(){
         ActionBar actionBar = this.getSupportActionBar();
-//        actionBar.hide();
 
         edtLoginEmail = findViewById(R.id.edtLoginEmail);
         edtLoginPassword = findViewById(R.id.edtLoginPassword);
@@ -58,13 +57,9 @@ public class LoginActivity extends AppCompatActivity {
 
             if(email.isEmpty()){
                 edtLoginEmail.setError("Email cannot be empty");
-//                Log.d("LoginActivity", "Email is invalid");
-//                Toast.makeText(LoginActivity.this, "Email is invalid", Toast.LENGTH_LONG).show();
             }
             if(password.isEmpty()){
                 edtLoginPassword.setError("Password cannot be empty");
-//                Log.d("LoginActivity", "Password is invalid");
-//                Toast.makeText(LoginActivity.this, "Password is invalid", Toast.LENGTH_LONG).show();
             }
 
             if(isEmailValid(email)){
@@ -73,11 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             } else{
                 edtLoginEmail.setError("Email is not valid");
             }
-
-            // Biar cepet
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
         });
 
         btnLoginRegister.setOnClickListener((v) -> {
@@ -87,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void login(String email, String password){
-//        Call<UserModel> userResponse = apiInterface.loginUser(new UserModel(email, password));
         Call<UserModel> userResponse = apiInterface.loginUser(email, password);
         userResponse.enqueue(new Callback<UserModel>() {
             @Override
@@ -96,17 +85,27 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("LoginActivity", String.valueOf(response.message()));
                 Log.d("LoginActivity", String.valueOf(response.errorBody()));
                 Log.d("LoginActivity", String.valueOf(call.request().url()));
-                if (response.isSuccessful()){
-                    currentUser = response.body();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
-                    saveDataToSharedPreference();
+                Log.d("LoginActivity", String.valueOf(response.code()));
+                switch (response.code()) {
+                    case 200:
+                        currentUser = response.body();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                        saveDataToSharedPreference();
 
 //                    intent.putExtra(UserModel.USER_DATA, currentUser);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    showToast("Something went wrong, please try again later");
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 400:
+                        showToast("Ensure this field has at least 6 characters.");
+                    case 401:
+                        showToast("Invalid credentials, please try again");
+                        break;
+                    default:
+                        showToast("Something went wrong, please try again later");
+
                 }
             }
 

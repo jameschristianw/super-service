@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProductDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:id="@+id/imgProductDetailImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/tvProductDetailName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sectionTextSize"
+            android:paddingHorizontal="@dimen/bigPadding"
+            android:paddingVertical="@dimen/smallPadding"
+            tools:text="Product Name"
+            />
+
+        <TextView
+            android:id="@+id/tvProductDetailPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/bigPadding"
+            android:paddingVertical="@dimen/smallPadding"
+            tools:text="Product Price"
+            />
+
+        <TextView
+            android:id="@+id/tvProductDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/bigPadding"
+            android:paddingVertical="@dimen/smallPadding"
+            tools:text="Product Description"
+            />
+
+        <LinearLayout
+            android:id="@+id/llBuyQty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/bigPadding"
+            android:layout_marginVertical="@dimen/smallPadding"
+            android:visibility="gone"
+            >
+
+            <EditText
+                android:id="@+id/edtItemQty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:hint="@string/buy_quantity"
+                android:inputType="number"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:text="item"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBuyProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/bigPadding"
+            android:layout_marginVertical="@dimen/smallPadding"
+            android:text="@string/btn_buy"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
