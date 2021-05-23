@@ -17,12 +17,24 @@ public class ServiceModel {
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("duration")
+    @Expose
+    private int duration;
 
-    public ServiceModel(String id, String name, String price, String description) {
+    public ServiceModel(String id, String name, String price, String description, int duration) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.duration = duration;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public String getId() {

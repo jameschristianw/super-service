@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class ProductDetailActivity extends AppCompatActivity {
 
     int productId;
-    int buyQty = 0;
+    int buyQty = 1;
 
     H apiInterface;
     ProductModel product;
@@ -46,7 +46,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
 
         llBuyQty = findViewById(R.id.llBuyQty);
-//        llBuyQty.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         productId = intent.getIntExtra(ProductModel.PRODUCT_ID, 0);
@@ -96,9 +95,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvProductDetailDescription.setText(product.getDescription());
 
         btnBuyProduct.setOnClickListener((v) -> {
-            if(llBuyQty.getVisibility() == View.VISIBLE) {
-                showToast("Success buying " + buyQty + " " + product.getName());
-                finish();
+            if(llBuyQty.getVisibility() == View.VISIBLE ) {
+                if (edtItemQty.getText().toString().equals("")){
+                    showToast("Please enter the quantity");
+                } else if (Integer.parseInt(edtItemQty.getText().toString()) == 0){
+                    showToast("Quantity cannot be 0");
+                }
+                else {
+                    showToast("Success buying " + buyQty + " " + product.getName());
+                    finish();
+                }
             } else {
                 llBuyQty.setVisibility(View.VISIBLE);
                 edtItemQty.setText(String.valueOf(buyQty));
