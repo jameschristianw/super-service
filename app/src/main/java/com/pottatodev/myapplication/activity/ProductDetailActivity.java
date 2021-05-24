@@ -87,7 +87,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnBuyProduct = findViewById(R.id.btnBuyProduct);
         edtItemQty = findViewById(R.id.edtItemQty);
 
-        RequestOptions options = new RequestOptions().centerCrop().placeholder(R.mipmap.ic_launcher_round).error(R.mipmap.ic_launcher_round);
+        RequestOptions options = new RequestOptions().error(R.mipmap.ic_launcher_round);
         Glide.with(this).load(product.getImageUrl()).apply(options).into(imgProductDetailImage);
 
         tvProductDetailName.setText(product.getName());

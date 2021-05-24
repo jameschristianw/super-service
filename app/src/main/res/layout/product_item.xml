@@ -34,6 +34,7 @@
                 android:id="@+id/tvProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/itemTitle"
                 android:ellipsize="end"
                 android:maxLines="2"
                 tools:text="Product Title"

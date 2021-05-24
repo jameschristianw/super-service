@@ -1,5 +1,6 @@
 package com.pottatodev.myapplication.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.pottatodev.myapplication.R;
 import com.pottatodev.myapplication.fragment.ConsultationFragment;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager homeFragmentManager;
     FragmentTransaction transaction;
+
+    ImageView btnAddConsultation;
+
     H apiInterface;
 
     List<ProductModel> products = new ArrayList<>();
@@ -59,12 +65,32 @@ public class MainActivity extends AppCompatActivity {
         homeFragmentManager = getSupportFragmentManager();
         transaction = homeFragmentManager.beginTransaction();
 
+        initView();
+
         initData();
+    }
+
+    void initView(){
+        btnAddConsultation = findViewById(R.id.btnAddConsultation);
+
+        btnAddConsultation.setOnClickListener((v) ->{
+            Intent intent = new Intent(MainActivity.this, ConsultationActivity.class);
+            startActivityForResult(intent, 200);
+        });
     }
 
     void initData(){
         apiInterface = Config.getClient().create(H.class);
 
+
+        requestProducts();
+        requestServices();
+        requestConsultation();
+
+        initializingData = true;
+    }
+
+    void requestProducts(){
         Call<List<ProductModel>> getProducts = apiInterface.getProducts();
         getProducts.enqueue(new Callback<List<ProductModel>>() {
             @Override
@@ -82,10 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ProductModel>> call, Throwable t) {
-
+                showToast("Products cannot be fetched");
             }
         });
+    }
 
+    void requestServices(){
         Call<List<ServiceModel>> getServices = apiInterface.getServices();
         getServices.enqueue(new Callback<List<ServiceModel>>() {
             @Override
@@ -103,10 +131,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ServiceModel>> call, Throwable t) {
-
+                showToast("Services cannot be fetched");
             }
         });
 
+    }
+
+    void requestConsultation(){
         Call<List<ConsultationModel>> getConsultations = apiInterface.getConsultations();
         getConsultations.enqueue(new Callback<List<ConsultationModel>>() {
             @Override
@@ -124,11 +155,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ConsultationModel>> call, Throwable t) {
-
+                showToast("Consultations cannot be fetched");
             }
         });
+    }
 
-        initializingData = true;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 200 && resultCode == 200){
+            requestConsultation();
+        }
+    }
+
+    void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     void initFragment(){

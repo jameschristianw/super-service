@@ -5,4 +5,6 @@
     <item name="bigPadding" type="dimen">16dp</item>
 
     <item name="sectionTextSize" type="dimen">22sp</item>
+
+    <item name="itemTitle" type="dimen">18sp</item>
 </resources>

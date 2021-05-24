@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,11 @@ public class ConsultationFragment extends Fragment {
 
     public ConsultationFragment(List<ConsultationModel> consultations){
         this.consultations = consultations;
+
+        if (consultations.size() > 0){
+            hasData = true;
+        }
+        Log.d("ConsultationFragment", String.valueOf(consultations.size()));
     }
 
     @Override
@@ -49,7 +55,7 @@ public class ConsultationFragment extends Fragment {
 
             recyclerView = view.findViewById(R.id.rvConsultationList);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
             adapter = new ConsultationAdapter(consultations);
             recyclerView.setAdapter(adapter);
         } else {

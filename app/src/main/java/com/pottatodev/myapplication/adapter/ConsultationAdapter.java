@@ -3,6 +3,7 @@ package com.pottatodev.myapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,8 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ConsultationAdapter.ConsultationViewHolder holder, int position) {
-
+        holder.consultItemTitle.setText(consultations.get(position).getTitle());
+        holder.consultItemVehicle.setText(consultations.get(position).getVehicle());
     }
 
     @Override
@@ -41,8 +43,13 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
     }
 
     public static class ConsultationViewHolder extends RecyclerView.ViewHolder {
+        TextView consultItemTitle, consultItemVehicle;
+
         public ConsultationViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
+
+            consultItemTitle = itemView.findViewById(R.id.consultItemTitle);
+            consultItemVehicle = itemView.findViewById(R.id.consultItemVehicle);
         }
     }
 }

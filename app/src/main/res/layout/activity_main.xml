@@ -36,13 +36,32 @@
         android:padding="8dp"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/bigPadding"
-        android:paddingTop="@dimen/bigPadding"
-        android:textSize="@dimen/sectionTextSize"
-        android:text="Consultations"/>
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:paddingHorizontal="@dimen/bigPadding"
+            android:paddingTop="@dimen/bigPadding"
+            android:textSize="@dimen/sectionTextSize"
+            android:layout_gravity="center_vertical"
+            android:text="Consultations"/>
+
+        <ImageView
+            android:id="@+id/btnAddConsultation"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:paddingEnd="@dimen/smallPadding"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_baseline_add_48"
+            />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/consultationFrameLayout"
         android:layout_width="match_parent"

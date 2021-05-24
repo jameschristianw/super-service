@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/smallPadding"
+    >
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Service Item"/>
+        android:orientation="vertical"
+        android:padding="@dimen/mediumPadding"
+        >
+        <TextView
+            android:id="@+id/consultItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/itemTitle"
+            tools:text="Title"/>
 
-</LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/smallPadding"/>
+
+        <TextView
+            android:id="@+id/consultItemVehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Vehicle"/>
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

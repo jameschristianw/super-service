@@ -14,9 +14,7 @@
         <activity android:name=".activity.ProductDetailActivity"></activity>
         <activity android:name=".activity.AboutAppActivity" />
         <activity android:name=".activity.ConsultationActivity" />
-        <activity android:name=".activity.PackageActivity" />
         <activity android:name=".activity.ServiceActivity" />
-        <activity android:name=".activity.ShopActivity" />
         <activity
             android:name=".activity.RegisterActivity"
             android:parentActivityName=".activity.LoginActivity"
