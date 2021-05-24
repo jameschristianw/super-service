@@ -12,6 +12,7 @@ public class UserModel implements Serializable {
     public static String USER_USERNAME = "USER_USERNAME";
     public static String USER_REFRESH_TOKEN = "USER_REFRESH_TOKEN";
     public static String USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN";
+    public static String USER_LOGGED_IN = "USER_LOGGED_IN";
 
 
     @SerializedName("email")

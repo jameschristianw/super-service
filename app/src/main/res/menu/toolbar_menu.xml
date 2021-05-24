@@ -9,12 +9,13 @@
 <!--        app:showAsAction="collapseActionView"/>-->
 
     <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_about_app"
+        android:title="@string/action_about_app"
+        app:showAsAction="collapseActionView"/>
+    
     <item android:id="@+id/action_logout"
         android:title="@string/action_logout"
         app:showAsAction="collapseActionView"/>
 
-    <item android:id="@+id/action_about_app"
-        android:title="@string/action_about_app"
-        app:showAsAction="collapseActionView"/>
 
 </menu>

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import com.pottatodev.myapplication.helper.H;
 import com.pottatodev.myapplication.model.ConsultationModel;
 import com.pottatodev.myapplication.model.ProductModel;
 import com.pottatodev.myapplication.model.ServiceModel;
+import com.pottatodev.myapplication.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     boolean initializingData = true;
 
+    SharedPreferences preferences;
+    String prefName;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefName = this.getPackageName();
 
         homeFragmentManager = getSupportFragmentManager();
         transaction = homeFragmentManager.beginTransaction();
@@ -139,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    void removeLoginFromSP(){
+        preferences = getSharedPreferences(prefName, MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putBoolean(UserModel.USER_LOGGED_IN, false);
+        editor.apply();
+        editor.commit();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -154,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
 //                return true;
 
             case R.id.action_logout:
+                removeLoginFromSP();
                 Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logoutIntent);
                 finish();

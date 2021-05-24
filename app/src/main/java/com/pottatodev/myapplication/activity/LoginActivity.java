@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.pottatodev.myapplication.R;
@@ -32,10 +35,20 @@ public class LoginActivity extends AppCompatActivity {
 
     UserModel currentUser;
 
+    LinearLayout llLoginForm;
+    ProgressBar pbLoading;
+
+    SharedPreferences preferences;
+    String prefName;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        prefName = LoginActivity.this.getPackageName();
+        preferences = getSharedPreferences(prefName, MODE_PRIVATE);
 
         apiInterface = Config.getClient().create(H.class);
 
@@ -43,7 +56,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void initializeViews(){
-        ActionBar actionBar = this.getSupportActionBar();
+        llLoginForm = findViewById(R.id.llLoginForm);
+        pbLoading = findViewById(R.id.pbLoading);
+
+        llLoginForm.setVisibility(View.GONE);
+
+        // Cek klo udh login
+        boolean isLoggedIn = preferences.getBoolean(UserModel.USER_LOGGED_IN, false);
+        if (isLoggedIn){
+            moveToMainPage();
+        }
+
+        llLoginForm.setVisibility(View.VISIBLE);
+        pbLoading.setVisibility(View.GONE);
 
         edtLoginEmail = findViewById(R.id.edtLoginEmail);
         edtLoginPassword = findViewById(R.id.edtLoginPassword);
@@ -76,6 +101,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    void moveToMainPage(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     void login(String email, String password){
         Call<UserModel> userResponse = apiInterface.loginUser(email, password);
         userResponse.enqueue(new Callback<UserModel>() {
@@ -90,13 +121,8 @@ public class LoginActivity extends AppCompatActivity {
                 switch (response.code()) {
                     case 200:
                         currentUser = response.body();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
                         saveDataToSharedPreference();
-
-//                    intent.putExtra(UserModel.USER_DATA, currentUser);
-                        startActivity(intent);
-                        finish();
+                        moveToMainPage();
                         break;
                     case 400:
                         showToast("Ensure this field has at least 6 characters.");
@@ -119,16 +145,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void saveDataToSharedPreference(){
-        SharedPreferences preferences;
-        String prefName = LoginActivity.this.getPackageName();
-        preferences = getSharedPreferences(prefName, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
+        editor = preferences.edit();
+        editor.putBoolean(UserModel.USER_LOGGED_IN, true);
         editor.putString(UserModel.USER_EMAIL, currentUser.getEmail());
         editor.putString(UserModel.USER_USERNAME, currentUser.getUsername());
         editor.putString(UserModel.USER_ACCESS_TOKEN, currentUser.getTokens().getAccess());
         editor.putString(UserModel.USER_REFRESH_TOKEN, currentUser.getTokens().getRefresh());
         editor.apply();
+        editor.commit();
     }
 
     void showToast(String message){
