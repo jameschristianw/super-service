@@ -29,6 +29,10 @@ public class ServiceFragment extends Fragment {
 
     public ServiceFragment(List<ServiceModel> services) {
         this.services = services;
+
+        if (services.size() > 0){
+            hasData = true;
+        }
         // Required empty public constructor
     }
 
@@ -39,7 +43,7 @@ public class ServiceFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_service, container, false);
 
-        tvNoService = view.findViewById(R.id.tvNoData);
+        tvNoService = view.findViewById(R.id.tvNoService);
         recyclerView = view.findViewById(R.id.rvServiceList);
 
         if (hasData){

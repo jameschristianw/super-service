@@ -3,6 +3,7 @@ package com.pottatodev.myapplication.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +35,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ServiceAdapter.ServiceViewHolder holder, int position) {
-
+        holder.tvServiceTitle.setText(services.get(position).getName());
+        holder.tvServicePrice.setText("Rp. " + services.get(position).getPrice());
+        holder.tvServiceDuration.setText(services.get(position).getDuration() + " minutes");
     }
 
     @Override
@@ -43,8 +46,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     }
 
     public static class ServiceViewHolder extends RecyclerView.ViewHolder {
+        TextView tvServiceTitle, tvServicePrice, tvServiceDuration;
+
         public ServiceViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
+            tvServiceTitle = itemView.findViewById(R.id.tvServiceTitle);
+            tvServicePrice = itemView.findViewById(R.id.tvServicePrice);
+            tvServiceDuration = itemView.findViewById(R.id.tvServiceDuration);
         }
     }
 }

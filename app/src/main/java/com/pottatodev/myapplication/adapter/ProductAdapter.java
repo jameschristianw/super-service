@@ -46,7 +46,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Glide.with(holder.itemView).load(products.get(position).getImageUrl()).apply(options).into(holder.imgProductImage);
         holder.tvProductName.setText(products.get(position).getName());
-        holder.tvProductPrice.setText(products.get(position).getPrice());
+        holder.tvProductPrice.setText("Rp. " + products.get(position).getPrice());
 
         holder.cvProduct.setOnClickListener( (v) -> {
             Intent intent = new Intent(context, ProductDetailActivity.class);

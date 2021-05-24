@@ -91,7 +91,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         Glide.with(this).load(product.getImageUrl()).apply(options).into(imgProductDetailImage);
 
         tvProductDetailName.setText(product.getName());
-        tvProductDetailPrice.setText(product.getPrice());
+        tvProductDetailPrice.setText("Rp. " + product.getPrice());
         tvProductDetailDescription.setText(product.getDescription());
 
         btnBuyProduct.setOnClickListener((v) -> {
