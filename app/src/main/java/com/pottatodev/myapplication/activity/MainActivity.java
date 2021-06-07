@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
     void initData(){
         apiInterface = Config.getClient().create(H.class);
 
-
         requestProducts();
         requestServices();
         requestConsultation();
@@ -167,26 +166,13 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 200 && resultCode == 200){
             requestConsultation();
         }
+        if(resultCode == 201) {
+            requestProducts();
+        }
     }
 
     void showToast(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    void initFragment(){
-        homeFragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = homeFragmentManager.beginTransaction();
-
-        Fragment productFragment = new ProductFragment(products, MainActivity.this);
-        transaction.replace(R.id.productFrameLayout, productFragment);
-
-        Fragment serviceFragment = new ServiceFragment(services);
-        transaction.replace(R.id.serviceFrameLayout, serviceFragment);
-
-        Fragment consultationFragment = new ConsultationFragment(consultations);
-        transaction.replace(R.id.consultationFrameLayout, consultationFragment);
-
-        transaction.commit();
     }
 
     void removeLoginFromSP(){
@@ -207,15 +193,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.action_favorite:
-//                // User chose the "Settings" item, show the app settings UI...
-//                return true;
-
             case R.id.action_logout:
                 removeLoginFromSP();
                 Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(logoutIntent);
                 finish();
+                return true;
+
+            case R.id.action_transaction:
+                removeLoginFromSP();
+                Intent trxIntent = new Intent(MainActivity.this, TransactionActivity.class);
+                startActivity(trxIntent);
                 return true;
 
             case R.id.action_about_app:
@@ -224,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }

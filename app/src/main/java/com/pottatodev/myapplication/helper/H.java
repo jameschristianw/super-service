@@ -11,10 +11,13 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -49,14 +52,32 @@ public interface H {
     @GET("product/{id}")
     Call<ProductModel> getProductsById(@Path("id") int id);
 
+    @GET("product/promo/")
+    Call<ProductModel> getProductsPromo();
+
     @FormUrlEncoded
     @POST("product/")
-    Call<ConsultationModel> createProduct(@Field("name") String title, @Field("price") int price, @Field("description") String description);
+    Call<ConsultationModel> createProduct(@Field("name") String title, @Field("price") int price, @Field("description") String description, @Field("image") String imageUrl, @Field("stock") int stock);
 
     @FormUrlEncoded
     @POST("product/buy/")
-    Call<ConsultationModel> createProductBuy(@Field("user") int user, @Field("product") int consultation);
+    Call<ConsultationModel> buyProduct(@Field("user") int id, @Field("product") int productId, @Field("quantity") int qty);
 
+    @FormUrlEncoded
+    @POST("product/promo/")
+    Call<ConsultationModel> createProductPromo(@Field("product") int productId, @Field("title") String title, @Field("banner") String banner);
+
+    @PUT("product/{id}")
+    Call<ProductModel> putProductsById(@Path("id") int id);
+
+//    @FormUrlEncoded
+//    @PATCH("product/{id}")
+//    Call<ProductModel> updateProductsById(@Path("id") int id, @Field("name") String title, @Field("price") int price, @Field("description") String description, @Field("image") String imageUrl, @Field("stock") int stock);
+    @PATCH("product/{id}")
+    Call<ProductModel> updateProductsById(@Path("id") int id, @Body ProductModel product);
+
+    @DELETE("product/{id}")
+    Call<ProductModel> deleteProductsById(@Path("id") int id);
 
     // Services
     @GET("service/")

@@ -4,7 +4,7 @@
     <string name="email_label">E-mail</string>
     <string name="password_label">Password</string>
     <string name="confirm_password_label">Confirm Password</string>
-    <string name="login_label">Login</string>
+    <string name="login_label">Login </string>
     <string name="username_label">Username</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="product_image_cd">Product Image</string>
@@ -13,9 +13,32 @@
     <string name="btn_buy">Buy</string>
     <string name="buy_quantity">Quantity</string>
     <string name="label_description">Description</string>
+    <string name="label_name">Name</string>
+    <string name="label_price">Price</string>
+    <string name="label_stock">Stock</string>
+    <string name="label_image">Image URL</string>
     <string name="label_consult_title">Complaint</string>
     <string name="label_consult_vehicle">Vehicle</string>
     <string name="send_consultation">Send Consultation</string>
+    <string name="admin_login">Are you an admin?</string>
+    <string name="here">here</string>
+    <string name="admin_app_name">Admin Super Service</string>
+    <string name="credential_is_invalid">Credential is invalid</string>
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="tersedia">Tersedia</string>
+    <string name="products_label">Products</string>
+    <string name="services_label">Services</string>
+    <string name="all_products_label">Show all products</string>
+    <string name="all_services_label">Show all services</string>
+    <string name="action_add">add</string>
+    <string name="action_help">help</string>
+    <string name="label_submit">Submit</string>
+    <string name="load_image_label">Load Image</string>
+    <string name="action_transaction">Transactions</string>
+    <string name="product_label">Product</string>
+    <string name="purchase_success">Purchase Success</string>
+    <string name="qty">Items: </string>
 
     <string-array name="vehicle_list">
         <item>Motor Matic</item>

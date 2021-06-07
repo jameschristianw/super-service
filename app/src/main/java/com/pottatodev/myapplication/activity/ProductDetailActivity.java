@@ -1,8 +1,11 @@
 package com.pottatodev.myapplication.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,7 +23,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.pottatodev.myapplication.R;
 import com.pottatodev.myapplication.helper.Config;
 import com.pottatodev.myapplication.helper.H;
+import com.pottatodev.myapplication.model.ConsultationModel;
 import com.pottatodev.myapplication.model.ProductModel;
+import com.pottatodev.myapplication.model.UserModel;
+import com.pottatodev.myapplication.room.TransactionViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +38,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     int buyQty = 1;
 
     H apiInterface;
-    ProductModel product;
+    ProductModel product, boughtProduct;
 
     ImageView imgProductDetailImage;
     TextView tvProductDetailName, tvProductDetailPrice, tvProductDetailDescription;
@@ -40,10 +46,23 @@ public class ProductDetailActivity extends AppCompatActivity {
     Button btnBuyProduct;
     EditText edtItemQty;
 
+    SharedPreferences preferences;
+    String prefName;
+    SharedPreferences.Editor editor;
+
+    int username;
+    int id;
+
+    TransactionViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
+
+        prefName = ProductDetailActivity.this.getPackageName();
+        preferences = getSharedPreferences(prefName, MODE_PRIVATE);
+        username = preferences.getInt(UserModel.USER_USERNAME, 0);
 
         llBuyQty = findViewById(R.id.llBuyQty);
 
@@ -56,6 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     void initData(){
         apiInterface = Config.getClient().create(H.class);
+        viewModel = ViewModelProviders.of(this).get(TransactionViewModel.class);
 
         Call<ProductModel> getProduct = apiInterface.getProductsById(productId);
         getProduct.enqueue(new Callback<ProductModel>() {
@@ -102,8 +122,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                     showToast("Quantity cannot be 0");
                 }
                 else {
-                    showToast("Success buying " + buyQty + " " + product.getName());
-                    finish();
+                    buyQty = Integer.parseInt(edtItemQty.getText().toString());
+                    Log.d("ProductDetailActivity", String.valueOf(buyQty));
+                    boughtProduct = new ProductModel(productId, product.getName(), buyQty * product.getPrice(), product.getDescription(), product.getImageUrl(), buyQty);
+                    requestBuyProduct();
                 }
             } else {
                 llBuyQty.setVisibility(View.VISIBLE);
@@ -129,6 +151,39 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    void requestBuyProduct(){
+        apiInterface.buyProduct(username, productId, buyQty).enqueue(new Callback<ConsultationModel>() {
+            @Override
+            public void onResponse(Call<ConsultationModel> call, Response<ConsultationModel> response) {
+                Log.d("ProductDetailActivity", String.valueOf(response.code()));
+                if (response.code() == 201){
+                    Intent successIntent = new Intent(ProductDetailActivity.this, PaymentActivity.class);
+                    successIntent.putExtra("PRODUCT_NAME", boughtProduct.getName());
+                    successIntent.putExtra("PRODUCT_IMAGE", boughtProduct.getImageUrl());
+                    successIntent.putExtra("PRODUCT_QTY", boughtProduct.getStock());
+                    successIntent.putExtra("PRODUCT_PRICE", boughtProduct.getPrice());
+                    viewModel.insert(boughtProduct);
+                    startActivityForResult(successIntent, 201);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ConsultationModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            setResult(201);
+            finish();
+        }
     }
 
     void showToast(String message){

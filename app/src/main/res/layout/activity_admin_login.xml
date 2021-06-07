@@ -5,20 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/bigPadding"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
     android:background="@color/background_color"
-    tools:context=".activity.LoginActivity">
-
-    <ProgressBar
-        android:id="@+id/pbLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+    tools:context=".activity.admin.AdminLoginActivity">
 
     <LinearLayout
         android:id="@+id/llLoginForm"
@@ -33,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/admin_app_name"
             android:textSize="36sp"
             />
 
@@ -45,10 +33,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/email_label"
+            android:text="@string/username_label"
             />
+
         <EditText
-            android:id="@+id/edtLoginEmail"
+            android:id="@+id/edtEmailAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -60,65 +49,35 @@
             android:text="@string/password_label"
             />
         <EditText
-            android:id="@+id/edtLoginPassword"
+            android:id="@+id/edtPasswordAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             />
 
-        <com.kusu.loadingbutton.LoadingButton
-            android:id="@+id/btnLogin"
+        <Button
+            android:id="@+id/btnLoginAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_label"
-            android:backgroundTint="@color/secondary_primary"
-            app:lb_shadowColor="@color/black"
-            app:lb_shadowHeight="5dp"
-            app:lb_isShadowEnable="true"
             />
 
         <Button
-            android:id="@+id/btnLoginRegister"
+            android:id="@+id/btnCancel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/register_label"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
             android:backgroundTint="@android:color/white"
             android:textColor="@color/secondary_primary"
             />
 
-        <View
+        <TextView
+            android:id="@+id/tvLoginError"
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/admin_login"
-                />
-            <View
-                android:layout_width="3dp"
-                android:layout_height="1dp" />
-            <TextView
-                android:id="@+id/tvAdminLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_label"
-                android:textColor="@color/secondary_primary"
-                />
-            <View
-                android:layout_width="3dp"
-                android:layout_height="1dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/here"
-                />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/credential_is_invalid"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"
+            />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

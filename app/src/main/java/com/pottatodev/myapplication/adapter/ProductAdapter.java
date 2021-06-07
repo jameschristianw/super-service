@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.pottatodev.myapplication.R;
+import com.pottatodev.myapplication.activity.MainActivity;
 import com.pottatodev.myapplication.activity.ProductDetailActivity;
 import com.pottatodev.myapplication.model.ProductModel;
 
@@ -25,14 +26,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     List<ProductModel> products;
     Context context;
+    int mode; // 0 user; 1 admin;
 
-    public ProductAdapter(List<ProductModel> products, Context context){
+    public ProductAdapter(List<ProductModel> products, Context context, int mode){
         this.products = products;
         this.context = context;
+        this.mode = mode;
     }
 
     @NonNull
-    @org.jetbrains.annotations.NotNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
@@ -46,13 +48,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Glide.with(holder.itemView).load(products.get(position).getImageUrl()).apply(options).into(holder.imgProductImage);
         holder.tvProductName.setText(products.get(position).getName());
-        holder.tvProductPrice.setText("Rp. " + products.get(position).getPrice());
+        holder.tvProductPrice.setText("Rp. " + String.valueOf(products.get(position).getPrice()));
+        holder.tvProductStock.setText(String.valueOf(products.get(position).getStock()));
 
         holder.cvProduct.setOnClickListener( (v) -> {
             Intent intent = new Intent(context, ProductDetailActivity.class);
             intent.putExtra(ProductModel.PRODUCT_ID, products.get(position).getId());
-            context.startActivity(intent);
+            ((MainActivity) context).startActivityForResult(intent, 201);
         });
+
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProductImage;
-        TextView tvProductName, tvProductPrice;
+        TextView tvProductName, tvProductPrice, tvProductStock;
         CardView cvProduct;
 
         public ProductViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
@@ -73,6 +77,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             imgProductImage = itemView.findViewById(R.id.imgProductImage);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            tvProductStock = itemView.findViewById(R.id.tvProductStock);
         }
     }
 }

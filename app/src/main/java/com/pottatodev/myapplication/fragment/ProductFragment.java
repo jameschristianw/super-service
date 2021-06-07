@@ -53,7 +53,7 @@ public class ProductFragment extends Fragment {
 
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            adapter = new ProductAdapter(products, context);
+            adapter = new ProductAdapter(products, context, 0);
             recyclerView.setAdapter(adapter);
         } else {
             recyclerView.setVisibility(View.GONE);

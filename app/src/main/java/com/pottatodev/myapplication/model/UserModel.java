@@ -20,12 +20,12 @@ public class UserModel implements Serializable {
     private String email;
     @SerializedName("username")
     @Expose
-    private String username;
+    private int username;
     @SerializedName("tokens")
     @Expose
     private TokenModel tokens;
 
-    public UserModel(String email, String username) {
+    public UserModel(String email, int username) {
         this.email = email;
         this.username = username;
     }
@@ -38,11 +38,11 @@ public class UserModel implements Serializable {
         this.email = email;
     }
 
-    public String getUsername() {
+    public int getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(int username) {
         this.username = username;
     }
 

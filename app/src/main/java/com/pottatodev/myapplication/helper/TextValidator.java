@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
-abstract class TextValidator implements TextWatcher {
+public abstract class TextValidator implements TextWatcher {
     private final TextView textView;
 
     public TextValidator(TextView textView) {

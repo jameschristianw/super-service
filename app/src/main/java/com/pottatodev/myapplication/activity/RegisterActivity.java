@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     void register(String username, String email, String password){
-        Call<ResponseBody> registerResponse = apiInterface.registerUser(new RegisterModel(email, username, password));
+        Call<ResponseBody> registerResponse = apiInterface.registerUser(new RegisterModel(email, "123123", password));
         registerResponse.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

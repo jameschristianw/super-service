@@ -11,30 +11,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.SuperService">
-        <activity android:name=".activity.ProductDetailActivity"></activity>
+        <activity android:name=".activity.PaymentActivity"></activity>
+        <activity
+            android:name=".activity.TransactionActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.admin.AdminAddEditServiceActivity"
+            android:parentActivityName=".activity.admin.AdminAllProductsActivity" />
+        <activity
+            android:name=".activity.admin.AdminAddEditProductActivity"
+            android:parentActivityName=".activity.admin.AdminAllServicesActivity" />
+        <activity
+            android:name=".activity.admin.AdminAllServicesActivity"
+            android:parentActivityName=".activity.admin.AdminMainActivity" />
+        <activity android:name=".activity.admin.AdminAllProductsActivity" />
+        <activity android:name=".activity.admin.AdminMainActivity" />
+        <activity
+            android:name=".activity.admin.AdminLoginActivity"
+            android:theme="@style/Theme.MaterialComponents.SuperService.NoActionBar" />
+        <activity android:name=".activity.ProductDetailActivity" />
         <activity android:name=".activity.AboutAppActivity" />
         <activity android:name=".activity.ConsultationActivity" />
         <activity android:name=".activity.ServiceActivity" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:parentActivityName=".activity.LoginActivity"
-            />
-         <activity android:name=".activity.LoginActivity"
-             android:theme="@style/Theme.MaterialComponents.SuperService.NoActionBar">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
-         </activity>
-         <activity android:name=".activity.MainActivity" />
-<!--        <activity android:name=".activity.LoginActivity" />-->
-<!--        <activity android:name=".activity.MainActivity">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:parentActivityName=".activity.LoginActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/Theme.MaterialComponents.SuperService.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>

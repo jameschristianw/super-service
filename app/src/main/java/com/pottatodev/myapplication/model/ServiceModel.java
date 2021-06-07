@@ -7,7 +7,7 @@ public class ServiceModel {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private int id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -20,13 +20,17 @@ public class ServiceModel {
     @SerializedName("duration")
     @Expose
     private int duration;
+    @SerializedName("image")
+    @Expose
+    private String imageUrl;
 
-    public ServiceModel(String id, String name, String price, String description, int duration) {
+    public ServiceModel(int id, String name, String price, String description, int duration, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.duration = duration;
+        this.imageUrl = imageUrl;
     }
 
     public int getDuration() {
@@ -37,11 +41,11 @@ public class ServiceModel {
         this.duration = duration;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -67,5 +71,13 @@ public class ServiceModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

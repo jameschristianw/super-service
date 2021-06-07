@@ -1,6 +1,5 @@
 package com.pottatodev.myapplication.activity;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,9 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kusu.loadingbutton.LoadingButton;
 import com.pottatodev.myapplication.R;
+import com.pottatodev.myapplication.activity.admin.AdminLoginActivity;
 import com.pottatodev.myapplication.helper.Config;
 import com.pottatodev.myapplication.helper.H;
 import com.pottatodev.myapplication.model.UserModel;
@@ -29,7 +31,9 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     EditText edtLoginEmail, edtLoginPassword;
-    Button btnLogin, btnLoginRegister;
+    Button btnLoginRegister;
+    LoadingButton btnLogin;
+    TextView tvAdminLogin;
 
     H apiInterface;
 
@@ -80,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             email = edtLoginEmail.getText().toString();
             password = edtLoginPassword.getText().toString();
 
+
             if(email.isEmpty()){
                 edtLoginEmail.setError("Email cannot be empty");
             }
@@ -88,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if(isEmailValid(email)){
+                btnLogin.showLoading();
                 Toast.makeText(LoginActivity.this, "Logging In", Toast.LENGTH_LONG).show();
                 login(email, password);
             } else{
@@ -99,6 +105,12 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+
+        tvAdminLogin = findViewById(R.id.tvAdminLogin);
+        tvAdminLogin.setOnClickListener((v -> {
+            Intent adminIntent = new Intent(LoginActivity.this, AdminLoginActivity.class);
+            startActivity(adminIntent);
+        }));
     }
 
     void moveToMainPage(){
@@ -126,11 +138,15 @@ public class LoginActivity extends AppCompatActivity {
                         break;
                     case 400:
                         showToast("Ensure this field has at least 6 characters.");
+                        btnLogin.hideLoading();
+                        break;
                     case 401:
                         showToast("Invalid credentials, please try again");
+                        btnLogin.hideLoading();
                         break;
                     default:
                         showToast("Something went wrong, please try again later");
+                        btnLogin.hideLoading();
 
                 }
             }
@@ -148,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         editor = preferences.edit();
         editor.putBoolean(UserModel.USER_LOGGED_IN, true);
         editor.putString(UserModel.USER_EMAIL, currentUser.getEmail());
-        editor.putString(UserModel.USER_USERNAME, currentUser.getUsername());
+        editor.putInt(UserModel.USER_USERNAME, currentUser.getUsername());
         editor.putString(UserModel.USER_ACCESS_TOKEN, currentUser.getTokens().getAccess());
         editor.putString(UserModel.USER_REFRESH_TOKEN, currentUser.getTokens().getRefresh());
         editor.apply();

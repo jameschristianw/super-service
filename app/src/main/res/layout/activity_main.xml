@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_color"
     tools:context=".activity.MainActivity">
 
 
@@ -14,7 +15,7 @@
         android:paddingHorizontal="@dimen/bigPadding"
         android:paddingTop="@dimen/bigPadding"
         android:textSize="@dimen/sectionTextSize"
-        android:text="Products"/>
+        android:text="@string/products_label"/>
     <FrameLayout
         android:id="@+id/productFrameLayout"
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
         android:paddingHorizontal="@dimen/bigPadding"
         android:paddingTop="@dimen/bigPadding"
         android:textSize="@dimen/sectionTextSize"
-        android:text="Services"/>
+        android:text="@string/services_label"/>
     <FrameLayout
         android:id="@+id/serviceFrameLayout"
         android:layout_width="match_parent"
